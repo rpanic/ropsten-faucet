@@ -77,13 +77,17 @@ fun Application.module(testing: Boolean = false) {
                 val limit = redisWrapper.requestLimit(ip, address)
                 if (limit.first) {
 
-                    try {
+                    if(rpcHandler.getBalance(address) < Convert.toWei("7", Convert.Unit.ETHER).toBigInteger()) {
+                        try {
 //                        val hash = "0x0b49e9eb95fbccf45dcd76176615b7306a20bcccf74afa4f9f94158225a89d1e"
-                        val hash = rpcHandler.sendEther(address)
-                        redisWrapper.pushTx(Transaction(hash, address, System.currentTimeMillis()))
-                        call.respond(HttpStatusCode.OK, ResponseObject("OK", hash))
-                    }catch(e : Exception){
-                        e.printStackTrace()
+                            val hash = rpcHandler.sendEther(address)
+                            redisWrapper.pushTx(Transaction(hash, address, System.currentTimeMillis()))
+                            call.respond(HttpStatusCode.OK, ResponseObject("OK", hash))
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }else{
+                        call.respond(HttpStatusCode.TooManyRequests, ResponseObject("Too greedy", "Address has to much Ether, User is too greedy"))
                     }
 
                 } else {

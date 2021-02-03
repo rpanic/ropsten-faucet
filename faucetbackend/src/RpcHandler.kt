@@ -12,9 +12,11 @@ class RpcHandler {
         return rpc.sendEther(amount, getGasPrice(), address).result!!
     }
 
-    fun getBalance(): BigInteger {
+    fun getBalance() = getBalance(rpc.ownAddress)
 
-        val response = rpc.call("eth_getBalance", listOf(rpc.ownAddress, "latest"))
+    fun getBalance(address: String): BigInteger {
+
+        val response = rpc.call("eth_getBalance", listOf(address, "latest"))
         val balance = BigInteger(response.result!!.substring(2), 16)
         println("Balance: $balance")
         return balance
