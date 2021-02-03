@@ -15,11 +15,8 @@ steps:
       - docker stop faucet || true
       - docker rm faucet || true
   - name: deploy
-    environment:
-      PRIVATEKEY:
-        from_secret: PRIVATEKEY
     commands:
-      - docker run -d --name faucet -p 8070:8080 --network faucet --env PRIVATEKEY=${PRIVATEKEY} faucet
+      - docker run -d --name faucet -p 8070:8080 --network faucet -v faucetkeys:/app/config faucet
 
 trigger:
   branch:
