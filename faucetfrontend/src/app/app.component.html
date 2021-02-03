@@ -1,0 +1,111 @@
+<!-- Navigation -->
+<nav class="navbar navbar-light bg-light static-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">Ropsten Faucet</a>
+    <a class="btn btn-primary" href="#">Github</a>
+  </div>
+</nav>
+
+<!-- Masthead -->
+<header class="masthead text-white text-center">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-9 mx-auto">
+        <h1 class="mb-3">Ropsten Ethereum Faucet</h1>
+        <h3 class="mb-5">Get 2.5 Ether to test your dApps on Ropsten</h3>
+      </div>
+      <div class="col-md-12 col-lg-10 col-xl-9 mx-auto">
+        <form>
+          <div class="form-row">
+            <div class="col-12 col-md-9 mb-2 mb-md-0">
+              <input [(ngModel)]="address" id="addressInput" type="email" class="form-control form-control-lg" name="address" placeholder="0x...">
+            </div>
+            <div class="col-12 col-md-3">
+              <button type="submit" class="btn btn-block btn-lg btn-primary" (click)="send()">Send Ropsten ETH</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-md-12 col-lg-10 col-xl-9 mx-auto collapse" id="message" style="overflow:hidden;">
+        <p class="pt-2 pb-2 mt-1 text-white" style="border-radius: 6px;" [ngClass]="success ? 'bg-success' : 'bg-danger'" [innerHtml]="message"></p>
+      </div>
+      <div class="col-md-12 col-lg-10 col-xl-9 mx-auto mt-2">
+        <div>{{balance}} ETH left in Faucet. Gas Limit 300k</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Tx List -->
+<section class="features-icons bg-light text-center pt-5">
+  <!-- <div class="container"> -->
+    <div class="mx-auto mt-2 mb-5">
+      <h5 class="text-muted">Please send unused Ropsten-Ether back to the faucet, since this will keep our mining costs low.</h5>
+      <h5><a class="text-dark" href="https://ropsten.etherscan.io/address/0xd46f58e357f2e44a7272ec9bf4c6789b7808c727">0xd46f58e357f2e44a7272ec9bf4c6789b7808c727</a></h5>
+      <!-- <h5 class="text-muted">Thanks!</h5> -->
+    </div>
+    <div class="row mr-5 ml-5 mt-2">
+      <h3 class="mx-auto mb-4">History</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Date/Time</th>
+            <th scope="col">Address</th>
+            <th scope="col">TxHash</th>
+            <th scope="col">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let tx of txs">
+            <td scope="row">{{tx.date | date:'medium'}}</td>
+            <td><a [href]="'https://ropsten.etherscan.io/address/' + tx.address" target="_blank">{{tx.address}}</a></td>
+            <td><a [href]="'https://ropsten.etherscan.io/tx/' + tx.id" target="_blank">{{tx.id}}</a></td>
+            <td>2.5 ETH</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  <!-- </div> -->
+</section>
+
+<!-- Footer -->
+<footer class="footer bg-dark">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
+        <ul class="list-inline mb-2">
+          <li class="list-inline-item mb-1">
+            <a href="https://ropsten.etherscan.io/address/0xd46f58e357f2e44a7272ec9bf4c6789b7808c727" class="text-white">
+              <div class="text-muted d-inline">Faucet Address:</div> 0xD46f58E357F2E44a7272EC9bF4c6789b7808C727</a>
+          </li>
+          <!-- <li class="list-inline-item">&sdot;</li> -->
+          <li class="list-inline-item">
+            <a href="https://etherscan.io/address/0x0Fd9A80586A547fC11a65a056b90F189D3997071" class="text-white">
+              <div class="text-muted d-inline">Donate ETH:</div> 0x0Fd9A80586A547fC11a65a056b90F189D3997071</a>
+          </li>
+        </ul>
+        <!-- <p class="text-muted small mb-4 mb-lg-0">All Rights Reserved.</p> -->
+      </div>
+      <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
+        <ul class="list-inline mb-0">
+          <li class="list-inline-item mr-3">
+            <a href="#">
+              <i class="fab fa-github fa-2x fa-fw text-white"></i>
+            </a>
+          </li>
+          <!-- <li class="list-inline-item mr-3">
+            <a href="#">
+              <i class="fab fa-twitter-square fa-2x fa-fw"></i>
+            </a>
+          </li>
+          <li class="list-inline-item">
+            <a href="#">
+              <i class="fab fa-instagram fa-2x fa-fw"></i>
+            </a>
+          </li> -->
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>

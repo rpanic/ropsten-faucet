@@ -1,0 +1,25 @@
+@keyframes popup-open{
+    from {
+        margin-top: -30px;
+    }
+    to {
+        margin-top: 0px;
+    }
+}
+.popup{
+    // height: 0px;
+    margin-top: -30px;
+}
+.popopen{
+    animation-name: popup-open;
+    animation-duration: 2s;
+    margin-top: 0px !important;
+    animation-iteration-count: 3;
+    background-color: green;
+}
+.popclosed{
+    animation-name: popup-open;
+    animation-direction: reverse;
+    animation-duration: 2s;
+    margin-top: -30px;
+}
