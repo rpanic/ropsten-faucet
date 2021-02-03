@@ -9,7 +9,7 @@ import { Transaction } from './app.component';
 })
 export class ApiService {
 
-  url = "http://localhost:8080"
+  url = "https://faucet.rpanic.com/"
 
   constructor(private http: HttpClient) { }
 
