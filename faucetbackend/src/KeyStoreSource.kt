@@ -10,9 +10,13 @@ object KeyStoreSource {
 
     fun getCredentials(): Credentials {
 
-        val priv = System.getenv("PRIVATEKEY")
-            ?: Files.readAllLines(File(System.getProperty("user.dir") + "/config/keys.txt").toPath())[1]
-
+        val envkey: String? = System.getenv("PRIVATEKEY")
+        println("Private Key: $envkey")
+        val priv = if(!envkey.isNullOrEmpty()){
+            envkey
+        }else{
+            Files.readAllLines(File(System.getProperty("user.dir") + "/config/keys.txt").toPath())[1]
+        }
         val key = BigInteger(priv, 16)
         val pair = ECKeyPair.create(key)
 
