@@ -1,0 +1,23 @@
+kind: pipeline
+type: exec
+name: website
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+  - name: build
+    commands:
+      - docker build -t faucet .
+  - name: cleanup
+    commands:
+      - docker stop faucet || true
+      - docker rm faucet || true
+  - name: deploy
+    commands:
+      - docker run --name faucet -p 8070:8080 --network faucet --env PRIVATEKEY=${privatekey} faucet
+
+trigger:
+  branch:
+    - master

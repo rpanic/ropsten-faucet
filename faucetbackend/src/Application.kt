@@ -12,6 +12,7 @@ import io.ktor.http.content.*
 import io.ktor.gson.*
 import io.ktor.features.*
 import org.web3j.utils.Convert
+import java.io.File
 import java.util.*
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
@@ -43,9 +44,6 @@ fun Application.module(testing: Boolean = false) {
     val rpcHandler = RpcHandler()
 
     routing {
-        get("/") {
-            call.respondText("HELLO WORLD!", contentType = ContentType.Text.Plain)
-        }
 
         get("/balanceLeft") {
             val res = rpcHandler.getBalance()
@@ -80,8 +78,8 @@ fun Application.module(testing: Boolean = false) {
                 if (limit.first) {
 
                     try {
-                        val hash = "0x0b49e9eb95fbccf45dcd76176615b7306a20bcccf74afa4f9f94158225a89d1e"
-//                        val hash = rpcHandler.sendEther(address)
+//                        val hash = "0x0b49e9eb95fbccf45dcd76176615b7306a20bcccf74afa4f9f94158225a89d1e"
+                        val hash = rpcHandler.sendEther(address)
                         redisWrapper.pushTx(Transaction(hash, address, System.currentTimeMillis()))
                         call.respond(HttpStatusCode.OK, ResponseObject("OK", hash))
                     }catch(e : Exception){
@@ -110,8 +108,11 @@ fun Application.module(testing: Boolean = false) {
         }
 
         // Static feature. Try to access `/static/ktor_logo.svg`
-        static("/static") {
-            resources("static")
+        static("/") {
+            preCompressed {
+                this.files(File(System.getProperty("user.dir") + "/static"))
+                default(File(System.getProperty("user.dir") + "/static/index.html"))
+            }
         }
     }
 }
