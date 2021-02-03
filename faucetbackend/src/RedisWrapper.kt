@@ -11,8 +11,8 @@ class RedisWrapper(val config: ApplicationConfig) {
 
     lateinit var connection: RedisConnection<String, String>
 
-    val ip_timeout = 30L//60*60.toLong() //1h
-    val address_timeout = 30L//24*60*60.toLong() //1d
+    val ip_timeout = 60*60.toLong() //1h
+    val address_timeout = 24*60*60.toLong() //1d
 
     fun connect(){
 

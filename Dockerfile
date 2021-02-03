@@ -18,7 +18,6 @@ RUN gradle build
 FROM openjdk:8
 COPY --from=builder /home/gradle/src/build/libs/ropstenfaucet-0.0.1-all.jar /app/ropstenfaucet.jar
 COPY --from=angular /opt/ng/dist/faucetfrontend /app/static
-COPY --from=builder /home/gradle/src/config /app/config
 WORKDIR /app
 EXPOSE 8080
 CMD ["java", "-jar", "ropstenfaucet.jar"]

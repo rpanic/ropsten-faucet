@@ -6,7 +6,7 @@ class RpcHandler {
 
     val rpc = RpcConnection()
 
-    val amount = "0.01"
+    val amount = "2.5"
 
     fun sendEther(address: String) : String{
         return rpc.sendEther(amount, getGasPrice(), address).result!!
