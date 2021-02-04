@@ -52,13 +52,6 @@ fun Application.module(testing: Boolean = false) {
             call.respond(str)
         }
 
-        get("/clear"){
-            val address = call.parameters["address"]!!
-            val ip = call.request.origin.remoteHost
-            redisWrapper.clear(ip, address)
-            call.respond("Hello")
-        }
-
         get("/txs"){
             call.respond(redisWrapper.getTxs())
         }
