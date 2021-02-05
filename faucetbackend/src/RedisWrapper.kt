@@ -14,6 +14,8 @@ class RedisWrapper(val config: ApplicationConfig) {
     val ip_timeout = 60*60.toLong() //1h
     val address_timeout = 24*60*60.toLong() //1d
 
+    val _txs = mutableListOf<Transaction>()
+
     fun connect(){
 
         val host = config.property("redis.host").getString()
@@ -65,13 +67,15 @@ class RedisWrapper(val config: ApplicationConfig) {
     val txKeys = (0 until queueSize).map { "tx_$it" }
 
     fun getTxs() : List<Transaction>{
-        return connection.mget(*txKeys.toTypedArray()).filterNotNull().map { Transaction.fromCsv(it) }.sortedByDescending { it.date }
+        val txs = connection.mget(*txKeys.toTypedArray()).filterNotNull().map { Transaction.fromCsv(it) }.sortedByDescending { it.date }
+        return listOf(txs, _txs).flatten().distinctBy { it.id }
     }
 
     fun pushTx(tx: Transaction){
         val index = (connection.get("tx_counter") ?: "0").toInt()
         connection.set("tx_counter", ((index + 1) % queueSize).toString())
         connection.set("tx_$index", tx.toCsv())
+        _txs.add(tx)
     }
 
 }
